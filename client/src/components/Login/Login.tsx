@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { loginUser } from "../../store/userSlice";
+import { Link } from "react-router-dom";
 import "./Login.css";
 
 const Login: React.FC = () => {
@@ -38,6 +39,7 @@ const Login: React.FC = () => {
       {loginStatus === "loading" && <p>Logging in...</p>}
       {loginStatus === "failed" && <p>Login failed. Please check your credentials.</p>}
       {loginStatus === "succeeded" && <p>Login successful!</p>}
+      <p>Don't have an account ? <Link to="/register">Register</Link></p>
     </form>
   );
 };

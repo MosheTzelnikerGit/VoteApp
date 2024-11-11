@@ -1,39 +1,37 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store/store';
-import { setCandidates } from '../../store/candidatesSlice';  // ודא שה-import נכון
+// CandidatesList.tsx
 
-const CandidateList = () => {
-  const dispatch = useDispatch();
-  const candidates = useSelector((state: RootState) => state.candidates.candidates);
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCandidates } from "../../store/candidatesSlice";
+import { RootState } from "../../store/store";
+import "./StatisticsCandidate.css";
+
+const CandidatesList: React.FC = () => {
+  const dispatch: any = useDispatch();
+  const { candidates, status, error } = useSelector((state: RootState) => state.candidates);
 
   useEffect(() => {
-    // קוד להורדת המועמדים משרת חיצוני (במקרה זה מדוגמה)
-    const fetchCandidates = async () => {
-      const response = await fetch('http://localhost:5000/api/candidates');  // כתובת ה-API שלך
-      const data = await response.json();
-      dispatch(setCandidates(data));  // עדכון ה-store עם המועמדים
-    };
-
-    fetchCandidates();
-  }, [dispatch]);
+    if (status === "idle") {
+      dispatch(fetchCandidates());
+    }
+  }, [status, dispatch]);
 
   return (
-    <div>
-      <h1>Candidate List</h1>
-      <ul>
-        {candidates.length === 0 ? (
-          <p>No candidates available</p>  // אם אין מועמדים
-        ) : (
-          candidates.map((candidate) => (
-            <li key={candidate.id}>
-              {candidate.name} - {candidate.party}
-            </li>
-          ))
-        )}
-      </ul>
+    <div className="candidates-list">
+      <h2>Candidates</h2>
+      {status === "loading" && <p>Loading candidates...</p>}
+      {error && <p>Error: {error}</p>}
+      <div className="candidates-container">
+        {candidates.map(candidate => (
+          <div key={candidate._id} className="candidate-card">
+            <img src={candidate.image} alt={candidate.name} className="candidate-image" />
+            <h3>{candidate.name}</h3>
+            <p>Votes: {candidate.votes}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default CandidateList;
+export default CandidatesList;

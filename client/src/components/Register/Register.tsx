@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { registerUser } from "../../store/userSlice";
+import { Link } from "react-router-dom";
 import "./Register.css";
 
 const Register: React.FC = () => {
@@ -45,6 +46,7 @@ const Register: React.FC = () => {
       {userStatus === "loading" && <p>Registering...</p>}
       {userStatus === "failed" && <p>Registration failed</p>}
       {userStatus === "succeeded" && <p>Registration successful!</p>}
+      <p>Already have an account ? <Link to="/login">Login</Link></p>
     </form>
   );
 };

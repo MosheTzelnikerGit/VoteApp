@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/user';
-
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -46,7 +46,9 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
       
     }
 
-    res.status(200).json({ message: 'Login successful', user });
+    const token = jwt.sign({ userId: user._id , isAdmin: user.isAdmin}, 'secret-key', { expiresIn: '1h' });
+
+    res.status(200).json({ message: 'Login successful', user, token });
     
   } catch (error) {
     res.status(500).json({ message: 'Failed to login', error });
