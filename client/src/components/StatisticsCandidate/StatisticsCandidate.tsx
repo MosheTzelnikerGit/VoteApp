@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/store';
-import { setCandidates } from '../store/candidatesSlice';  // ודא שה-import נכון
+import { RootState } from '../../store/store';
+import { setCandidates } from '../../store/candidatesSlice';  // ודא שה-import נכון
 
 const CandidateList = () => {
   const dispatch = useDispatch();

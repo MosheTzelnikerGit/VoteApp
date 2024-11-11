@@ -13,13 +13,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const user_1 = __importDefault(require("../models/user"));
 const router = express_1.default.Router();
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, isAdmin } = req.body;
-    // בדיקות ואימות
+    try {
+        const existingUser = yield user_1.default.findOne({ username });
+        if (existingUser) {
+            res.status(400).json({ message: 'Username already exists' });
+        }
+        const salt = yield bcryptjs_1.default.genSalt(10);
+        const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
+        const newUser = new user_1.default({
+            username,
+            password: hashedPassword,
+            isAdmin,
+        });
+        yield newUser.save();
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Failed to register user', error });
+    }
 }));
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    // התחברות ואימות עם JWT
+    try {
+        const user = yield user_1.default.findOne({ username });
+        if (!user) {
+            res.status(401).json({ message: 'Invalid username or password' });
+            return;
+        }
+        const isPasswordValid = yield bcryptjs_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            res.status(401).json({ message: 'Invalid username or password' });
+        }
+        res.status(200).json({ message: 'Login successful', user });
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Failed to login', error });
+    }
 }));
 exports.default = router;

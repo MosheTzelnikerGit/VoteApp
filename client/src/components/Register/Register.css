@@ -1,0 +1,94 @@
+/* Login.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  form {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  form:hover {
+    transform: scale(1.03);
+  }
+  
+  h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  
+  label {
+    display: block;
+    color: #666;
+    font-size: 0.9rem;
+    margin: 1rem 0 0.5rem;
+    text-align: left;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #6c63ff;
+    box-shadow: 0px 0px 8px rgba(108, 99, 255, 0.3);
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #6c63ff;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #574fbc;
+    box-shadow: 0px 4px 15px rgba(108, 99, 255, 0.4);
+  }
+  
+  p {
+    margin-top: 1rem;
+    color: #333;
+    font-size: 0.9rem;
+  }
+  
+  p a {
+    color: #6c63ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  p a:hover {
+    color: #574fbc;
+  }
+  

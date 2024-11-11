@@ -16,7 +16,12 @@ const express_1 = __importDefault(require("express"));
 const Candidate_1 = __importDefault(require("../models/Candidate"));
 const router = express_1.default.Router();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const candidates = yield Candidate_1.default.find();
-    res.json(candidates);
+    try {
+        const candidates = yield Candidate_1.default.find(); // זה צריך להחזיר את כל המועמדים
+        res.json(candidates); // מחזירים את המועמדים כ-JSON
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Failed to fetch candidates' });
+    }
 }));
 exports.default = router;
