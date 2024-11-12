@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { loginUser } from "../../store/userSlice";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const loginStatus = useSelector((state: RootState) => state.user.status);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin =async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser({ username, password }));
+    await dispatch(loginUser({ username, password })).unwrap();
+    navigate("/candidates");
   };
 
   return (

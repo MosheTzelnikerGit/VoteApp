@@ -16,6 +16,8 @@ const express_1 = __importDefault(require("express"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const router = express_1.default.Router();
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, isAdmin } = req.body;
@@ -23,6 +25,7 @@ router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, functio
         const existingUser = yield user_1.default.findOne({ username });
         if (existingUser) {
             res.status(400).json({ message: 'Username already exists' });
+            return;
         }
         const salt = yield bcryptjs_1.default.genSalt(10);
         const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
@@ -49,8 +52,9 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const isPasswordValid = yield bcryptjs_1.default.compare(password, user.password);
         if (!isPasswordValid) {
             res.status(401).json({ message: 'Invalid username or password' });
+            return;
         }
-        const token = jsonwebtoken_1.default.sign({ userId: user._id, isAdmin: user.isAdmin }, 'secret-key', { expiresIn: '1h' });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET || 'default_secret', { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', user, token });
     }
     catch (error) {

@@ -1,42 +1,92 @@
-
 .candidates-list {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .candidates-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .candidate-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 250px;
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-  
-  .candidate-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .candidate-image {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-  }
-  
-  h3 {
-    margin: 10px 0;
-  }
-  
-  p {
-    color: #666;
-    font-size: 0.9rem;
-  }
-  
+  text-align: center;
+  padding: 20px;
+  position: relative; /* מאפשר מיקום יחסי לכפתור */
+}
+
+.candidates-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.candidate-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.candidate-card:hover {
+  transform: translateY(-5px);
+}
+
+.candidate-image {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+h3 {
+  margin: 10px 0;
+}
+
+p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* StatisticsCandidate.css */
+
+.header {
+  display: flex;
+  justify-content: center; /* מרכז את הכותרת */
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.logout-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 150px;
+  height: 30px;
+}
+
+.logout-button:hover ,.statistics-btn:hover {
+  background-color: #d32f2f;
+}
+
+.logout-button:focus ,.statistics-btn:focus {
+  outline: 2px solid #d32f2f;
+  outline-offset: 2px;
+}
+
+.statistics-btn{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 150px;
+  height: 30px;
+}
+
+.statistics-btn:hover {
+  background-color: #2509a0;
+}

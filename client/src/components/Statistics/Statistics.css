@@ -1,0 +1,49 @@
+.statistics-page {
+    text-align: center;
+    padding: 20px;
+    
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .chart-container {
+    margin-bottom: 30px;
+  }
+  
+  table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  table th {
+    background-color: #3ec9c2;
+  }
+  
+  table td img {
+    width: 40px !important;  
+    height: 40px !important; 
+    border-radius: 50%;
+  }
+  
+  
+  @media (max-width: 9999px) {
+    table {
+      width: 100%;
+    }
+  
+    table th, table td {
+      font-size: 19px;
+    }
+  }
+  

@@ -20,7 +20,8 @@ const initialState: UserState = {
 export const registerUser = createAsyncThunk(
   "user/register",
   async (userData: { username: string; password: string; isAdmin: boolean }) => {
-    const response = await axios.post("http://localhost:5000/api/register", userData);
+    const response = await axios.post("http://localhost:3000/api/register", userData);
+    localStorage.setItem("token", response.data.token);
     return response.data;
   }
 );
@@ -29,17 +30,26 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "user/login",
   async (credentials: { username: string; password: string }) => {
-    const response = await axios.post("http://localhost:5000/api/login", credentials);
+    const response = await axios.post("http://localhost:3000/api/login", credentials);
+
+    // בדיקה אם המשתמש הוא מנהל או לא, והדפסת התוצאה לקונסול
+    if (response.data.user.isAdmin) {
+      console.log("TRUE");  // משתמש הוא מנהל
+    } else {
+      console.log("FALSE");  // משתמש רגיל
+    }
+
     localStorage.setItem("token", response.data.token);
     return response.data;
   }
 );
 
+// פונקציה להבאת המידע על המשתמש הנוכחי
 export const fetchCurrentUser = createAsyncThunk(
-  'user/fetchCurrentUser',
+  "user/fetchCurrentUser",
   async (_, { getState }) => {
     const state = getState() as { user: UserState };
-    const response = await axios.get("http://localhost:5000/api/login", {
+    const response = await axios.get("http://localhost:3000/api/currentUser", {
       headers: {
         Authorization: `Bearer ${state.user.token}`,
       },
@@ -78,12 +88,15 @@ export const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload;
+        state.user = action.payload.user; // שמירה של מידע המשתמש
         state.token = action.payload.accessToken;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = "Error logging in: " + action.error.message;
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.status = "loading";
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -92,10 +105,7 @@ export const userSlice = createSlice({
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.status = "failed";
-        state.error = "Error fetching current user: " + action.error.message;
-      })
-      .addCase(fetchCurrentUser.pending, (state) => {
-        state.status = "loading";
+        state.error = "Error fetching current user data: " + action.error.message;
       });
   },
 });

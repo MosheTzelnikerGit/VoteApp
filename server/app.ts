@@ -5,6 +5,7 @@ import connectDB from './src/data/db';
 import authRoutes from './src/routes/authRoutes';
 import candidateRoutes from './src/routes/candidateRoutes';
 
+
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ connectDB();
 
 app.use('/api/', authRoutes);
 app.use('/api/candidates', candidateRoutes);
+
 
 
 app.listen(process.env.PORT, () => {

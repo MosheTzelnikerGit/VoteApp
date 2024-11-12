@@ -2,16 +2,19 @@ import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/user';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
-router.post('/register', async (req: Request, res: Response) : Promise<void> => {
+router.post('/register', async (req: Request, res: Response): Promise<void> => {
   const { username, password, isAdmin } = req.body;
-
   try {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       res.status(400).json({ message: 'Username already exists' });
+      return;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -43,16 +46,18 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(401).json({ message: 'Invalid username or password' });
-      
+      return;
     }
 
-    const token = jwt.sign({ userId: user._id , isAdmin: user.isAdmin}, 'secret-key', { expiresIn: '1h' });
+    const token = jwt.sign(
+      { userId: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET || 'default_secret',
+      { expiresIn: '1h' }
+    );
 
     res.status(200).json({ message: 'Login successful', user, token });
-    
   } catch (error) {
     res.status(500).json({ message: 'Failed to login', error });
-    
   }
 });
 

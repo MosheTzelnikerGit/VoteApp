@@ -15,13 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // חיבור למסד הנתונים - ללא שימוש ב-useNewUrlParser ו-useUnifiedTopology
         yield mongoose_1.default.connect(process.env.MONGODB_URI);
         console.log('MongoDB connected successfully');
     }
     catch (error) {
         console.error('Error connecting to MongoDB:', error);
-        process.exit(1); // יציאה אם החיבור נכשל
+        process.exit(1);
     }
 });
 exports.default = connectDB;
